@@ -4,9 +4,9 @@ import com.ll.sbrabbitmq.domain.chat.chat.entity.ChatMessage;
 import com.ll.sbrabbitmq.domain.chat.chat.entity.ChatRoom;
 import com.ll.sbrabbitmq.domain.chat.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatController {
     private final ChatService chatService;
-    private final SimpMessagingTemplate template;
+    private final RabbitTemplate template;
 
     @GetMapping("/{roomId}")
     public String showRoom(
@@ -57,6 +57,6 @@ public class ChatController {
 
         ChatMessage chatMessage = chatService.writeMessage(chatRoom, createMessageReqBody.writerName(), createMessageReqBody.body());
 
-        template.convertAndSend("/topic/chat" + roomId + "MessageCreated", chatMessage);
+        template.convertAndSend("amq.topic", "chat" + roomId + "MessageCreated", chatMessage);
     }
 }
