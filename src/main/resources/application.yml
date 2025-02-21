@@ -1,6 +1,11 @@
 server:
   port: 8090
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
   thymeleaf:
     cache: false
     prefix: file:src/main/resources/templates/
