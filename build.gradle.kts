@@ -35,6 +35,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
 }
 
 tasks.withType<Test> {
